@@ -29,7 +29,7 @@ router.get<{ formId: string }, any, {}, FilteredResponseQueryParams>(
     }
 
     formResponseAdapter.setFilters(filters);
-    const filteredItems = await formResponseAdapter.getPaginatedRequest({
+    const filteredItems = await formResponseAdapter.getFilteredItems({
       ...req.query,
       formId: req.params.formId,
     });

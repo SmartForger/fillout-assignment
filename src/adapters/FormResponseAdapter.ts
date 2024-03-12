@@ -2,9 +2,9 @@ import axios from "axios";
 import qs from "qs";
 import { FilteredResponseQueryParams } from "../interfaces/FilteredResponseQueryParams";
 import {
-  FilteredPaginationAdapter,
+  FilterAdapter,
   PaginatedResponseData,
-} from "./FilteredPaginationAdapter";
+} from "./FilterAdapter";
 import { FilterClauseType } from "../interfaces/FilterClauseType";
 import { checkValueWithFilter } from "../utils/filter";
 
@@ -12,7 +12,7 @@ type FormResponseAdapterParams = Partial<FilteredResponseQueryParams> & {
   formId: string;
 };
 
-export class FormResponseAdapter extends FilteredPaginationAdapter<
+export class FormResponseAdapter extends FilterAdapter<
   FormResponseAdapterParams,
   any
 > {

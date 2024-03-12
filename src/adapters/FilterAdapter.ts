@@ -6,7 +6,7 @@ export type PaginatedResponseData<T> = {
   pageCount: number;
 };
 
-export abstract class FilteredPaginationAdapter<TParams, TData> {
+export abstract class FilterAdapter<TParams, TData> {
   public readonly MAX_PAGE_SIZE = 150;
   private readonly MAX_PROMISE_CONCURRENCY = 10;
 
@@ -16,7 +16,7 @@ export abstract class FilteredPaginationAdapter<TParams, TData> {
 
   abstract filterItems(response: PaginatedResponseData<TData>): TData[];
 
-  async getPaginatedRequest(params: TParams) {
+  async getFilteredItems(params: TParams) {
     const paramsWithoutPagination = this.excludePaginationParams(params);
 
     try {

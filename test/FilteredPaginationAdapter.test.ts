@@ -4,7 +4,7 @@ import { mockGetResponses } from './mock';
 
 jest.mock('axios');
 
-describe('FilteredPaginationAdapter', () => {
+describe('FilterAdapter', () => {
   let adapter: FormResponseAdapter;
 
   beforeEach(() => {
@@ -41,7 +41,7 @@ describe('FilteredPaginationAdapter', () => {
     it('should fetch all data in multiple requests', async () => {
       const mockGetDataRequest = jest.spyOn(adapter, 'getDataRequest');
 
-      const result = await adapter.getPaginatedRequest({
+      const result = await adapter.getFilteredItems({
         formId: '1',
       });
 
