@@ -4,7 +4,7 @@ import { mockGetResponses } from './mock';
 
 jest.mock('axios');
 
-describe.only('FilteredPaginationAdapter', () => {
+describe('FilteredPaginationAdapter', () => {
   let adapter: FormResponseAdapter;
 
   beforeEach(() => {
