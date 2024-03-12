@@ -7,7 +7,7 @@ export type PaginatedResponseData<T> = {
 };
 
 export abstract class FilteredPaginationAdapter<TParams, TData> {
-  private readonly MAX_PAGE_SIZE = 150;
+  public readonly MAX_PAGE_SIZE = 150;
   private readonly MAX_PROMISE_CONCURRENCY = 10;
 
   abstract getDataRequest(

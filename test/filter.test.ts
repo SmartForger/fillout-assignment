@@ -1,6 +1,6 @@
 import { checkValueWithFilter } from "../src/utils/filter";
 
-describe.only('checkValueWithFilter', () => {
+describe('checkValueWithFilter', () => {
   describe('equals', () => {
     it('should return true', () => {
       const item = {

@@ -1,22 +1,38 @@
-import axios from 'axios';
-import qs from 'qs';
+import axios from "axios";
+import qs from "qs";
 import { FilteredResponseQueryParams } from "../interfaces/FilteredResponseQueryParams";
-import { FilteredPaginationAdapter, PaginatedResponseData } from "./FilteredPaginationAdapter";
-import { FilterClauseType } from '../interfaces/FilterClauseType';
+import {
+  FilteredPaginationAdapter,
+  PaginatedResponseData,
+} from "./FilteredPaginationAdapter";
+import { FilterClauseType } from "../interfaces/FilterClauseType";
+import { checkValueWithFilter } from "../utils/filter";
 
-type FormResponseAdapterParams = Partial<FilteredResponseQueryParams> & { formId: string };
+type FormResponseAdapterParams = Partial<FilteredResponseQueryParams> & {
+  formId: string;
+};
 
-export class FormResponseAdapter extends FilteredPaginationAdapter<FormResponseAdapterParams, any> {
+export class FormResponseAdapter extends FilteredPaginationAdapter<
+  FormResponseAdapterParams,
+  any
+> {
   filters: FilterClauseType[] = [];
 
-  async getDataRequest(params: FormResponseAdapterParams): Promise<PaginatedResponseData<any>> {
+  async getDataRequest(
+    params: FormResponseAdapterParams
+  ): Promise<PaginatedResponseData<any>> {
     const { formId, filters, ...otherParams } = params;
 
-    const { data } = await axios.get(`${process.env.FILLOUT_API_URL}/v1/api/forms/${formId}/submissions?${qs.stringify(otherParams)}`, {
-      headers: {
-        Authorization: `Bearer ${process.env.FILLOUT_API_KEY}`,
-      },
-    });
+    const { data } = await axios.get(
+      `${
+        process.env.FILLOUT_API_URL
+      }/v1/api/forms/${formId}/submissions?${qs.stringify(otherParams)}`,
+      {
+        headers: {
+          Authorization: `Bearer ${process.env.FILLOUT_API_KEY}`,
+        },
+      }
+    );
 
     return {
       items: data.responses,
@@ -26,7 +42,11 @@ export class FormResponseAdapter extends FilteredPaginationAdapter<FormResponseA
   }
 
   filterItems(response: PaginatedResponseData<any>): any[] {
-    return response.items;
+    return response.items.filter(
+      (item) =>
+        !this.filters ||
+        this.filters.every((filter) => checkValueWithFilter(item, filter))
+    );
   }
 
   setFilters(filters: FilterClauseType[]) {
