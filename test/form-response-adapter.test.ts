@@ -1,16 +1,17 @@
 import axios from 'axios';
 import { FormResponseAdapter } from "../src/adapters/FormResponseAdapter";
-import { mockGetResponses } from './mock';
+import { generateSampleResponses, mockGetResponses } from './mock';
 
 jest.mock('axios');
 
-describe('FilterAdapter', () => {
+describe('FormResponseAdapter', () => {
   let adapter: FormResponseAdapter;
+  const sampleResponses = generateSampleResponses(550);
 
   beforeEach(() => {
     adapter = new FormResponseAdapter();
 
-    (axios.get as jest.Mock).mockImplementation(mockGetResponses);
+    (axios.get as jest.Mock).mockImplementation(mockGetResponses(sampleResponses));
   });
 
   describe('getDataRequest', () => {
@@ -54,11 +55,11 @@ describe('FilterAdapter', () => {
       }
 
       // Check total items length
-      expect(result.length).toBe(500);
+      expect(result.length).toBe(sampleResponses.length);
 
       // Check if item order is retained
-      for (let i = 0; i < 500; i ++) {
-        expect(result[i].submissionId).toBe(i.toString());
+      for (let i = 0; i < sampleResponses.length; i ++) {
+        expect(result[i].submissionId).toBe(sampleResponses[i].submissionId.toString());
       }
     });
   });
