@@ -11,6 +11,7 @@ export const generateSampleResponses = (count: number) => {
       return {
         submissionId: i.toString(),
         submissionTime: submissionTime.toISOString(),
+        type: Math.floor(Math.random() * 3),
       };
     });
 

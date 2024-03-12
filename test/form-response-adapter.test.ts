@@ -21,20 +21,99 @@ describe('FormResponseAdapter', () => {
     });
   });
 
-  describe('filterItems', () => {
+  describe.only('filterItems', () => {
     let response: any;
 
     beforeEach(() => {
       response = {
-        items: [ { id: '1' }, { id: '2' } ],
-        totalCount: 1,
-        pageCount: 1,
+        items: [
+          {
+            submissionId: '1',
+            submissionTime: '2024-03-12T20:00:00Z',
+            type: 1,
+          },
+          {
+            submissionId: '2',
+            submissionTime: '2024-03-12T21:00:00Z',
+            type: 1,
+          },
+          {
+            submissionId: '3',
+            submissionTime: '2024-03-12T19:00:00Z',
+            type: 2,
+          },
+          {
+            submissionId: '4',
+            submissionTime: '2024-03-12T21:30:00Z',
+            type: 2,
+          },
+          {
+            submissionId: '5',
+            submissionTime: '2024-03-12T22:00:00Z',
+            type: 1,
+          }
+        ],
+        totalCount: sampleResponses.length,
+        pageCount: Math.ceil(sampleResponses.length / 150),
       };
     });
 
     it('should return all items without filters', () => {
       const result = adapter.filterItems(response);
-      expect(result.length).toBe(2);
+      expect(result.length).toBe(5);
+    });
+
+    it('should filter with 1 filter', () => {
+      adapter.setFilters([
+        {
+          id: 'type',
+          condition: 'equals',
+          value: 1,
+        }
+      ]);
+      const result = adapter.filterItems(response);
+
+      expect(result).toEqual([
+        {
+          submissionId: '1',
+          submissionTime: '2024-03-12T20:00:00Z',
+          type: 1,
+        },
+        {
+          submissionId: '2',
+          submissionTime: '2024-03-12T21:00:00Z',
+          type: 1,
+        },
+        {
+          submissionId: '5',
+          submissionTime: '2024-03-12T22:00:00Z',
+          type: 1,
+        }
+      ]);
+    });
+
+    it('should filter with multiple filters', () => {
+      adapter.setFilters([
+        {
+          id: 'type',
+          condition: 'equals',
+          value: 1,
+        },
+        {
+          id: 'submissionTime',
+          condition: 'greater_than',
+          value: '2024-03-12T21:01:00Z',
+        },
+      ]);
+      const result = adapter.filterItems(response);
+
+      expect(result).toEqual([
+        {
+          submissionId: '5',
+          submissionTime: '2024-03-12T22:00:00Z',
+          type: 1,
+        }
+      ]);
     });
   });
 
