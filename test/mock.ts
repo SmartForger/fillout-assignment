@@ -18,7 +18,7 @@ export const generateSampleResponses = (count: number) => {
   return responses;
 }
 
-export const mockGetResponses = (responses: any[]) => (url: string) => {
+export const mockGetResponses = (responses: any[], hasDelay: boolean) => (url: string) => {
   const urlObj = new URL(url);
   const limit = parseInt(urlObj.searchParams.get("limit") || "150");
   const offset = parseInt(urlObj.searchParams.get("offset") || "0");
@@ -30,7 +30,7 @@ export const mockGetResponses = (responses: any[]) => (url: string) => {
   const items = responses.slice(offset, offset + itemCount);
 
   return new Promise((resolve) => {
-    const randomDelay = Math.round(300 * Math.random());
+    const randomDelay = hasDelay ? Math.round(300 * Math.random()) : 0;
 
     setTimeout(() => {
       resolve({

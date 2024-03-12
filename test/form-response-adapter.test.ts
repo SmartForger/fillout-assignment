@@ -11,7 +11,7 @@ describe('FormResponseAdapter', () => {
   beforeEach(() => {
     adapter = new FormResponseAdapter();
 
-    (axios.get as jest.Mock).mockImplementation(mockGetResponses(sampleResponses));
+    (axios.get as jest.Mock).mockImplementation(mockGetResponses(sampleResponses, false));
   });
 
   describe('getDataRequest', () => {
@@ -21,7 +21,7 @@ describe('FormResponseAdapter', () => {
     });
   });
 
-  describe.only('filterItems', () => {
+  describe('filterItems', () => {
     let response: any;
 
     beforeEach(() => {
@@ -117,11 +117,11 @@ describe('FormResponseAdapter', () => {
     });
   });
 
-  describe('getPaginatedRequest', () => {
+  describe.only('getFilteredItems', () => {
     it('should fetch all data in multiple requests', async () => {
       const mockGetDataRequest = jest.spyOn(adapter, 'getDataRequest');
 
-      const result = await adapter.getFilteredItems({
+      await adapter.getFilteredItems({
         formId: '1',
       });
 
@@ -132,6 +132,14 @@ describe('FormResponseAdapter', () => {
           offset: 150 * i,
         });
       }
+    });
+
+    it('should return items in order', async () => {
+      (axios.get as jest.Mock).mockImplementation(mockGetResponses(sampleResponses, true));
+
+      const result = await adapter.getFilteredItems({
+        formId: '1',
+      });
 
       // Check total items length
       expect(result.length).toBe(sampleResponses.length);
