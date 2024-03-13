@@ -27,8 +27,8 @@ describe('GET /api/v1/forms/:formId/filteredResponses', () => {
       .set('Accept', 'application/json')
       .expect(200);
 
-    expect(res.body.totalResponses.length).toBe(10);
-    expect(res.body.totalCount).toBe(514);
+    expect(res.body.responses.length).toBe(10);
+    expect(res.body.totalResponses).toBe(514);
     expect(res.body.pageCount).toBe(52);
   });
 });
