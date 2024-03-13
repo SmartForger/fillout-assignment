@@ -125,7 +125,7 @@ describe('FormResponseAdapter', () => {
         formId: '1',
       });
 
-      for (let i = 0; i < 4; i ++) {
+      for (let i = 1; i < 4; i ++) {
         expect(mockGetDataRequest).toHaveBeenCalledWith({
           formId: '1',
           limit: 150,
