@@ -1,38 +1,6 @@
-# Express API Starter with Typescript
+# Fillout Assignment
 
-How to use this template:
-
-```sh
-npx create-express-api --typescript --directory my-api-name
-```
-
-Includes API Server utilities:
-
-* [morgan](https://www.npmjs.com/package/morgan)
-  * HTTP request logger middleware for node.js
-* [helmet](https://www.npmjs.com/package/helmet)
-  * Helmet helps you secure your Express apps by setting various HTTP headers. It's not a silver bullet, but it can help!
-* [dotenv](https://www.npmjs.com/package/dotenv)
-  * Dotenv is a zero-dependency module that loads environment variables from a `.env` file into `process.env`
-* [cors](https://www.npmjs.com/package/cors)
-  * CORS is a node.js package for providing a Connect/Express middleware that can be used to enable CORS with various options.
-
-Development utilities:
-
-* [typescript](https://www.npmjs.com/package/typescript)
-  * TypeScript is a language for application-scale JavaScript.
-* [ts-node](https://www.npmjs.com/package/ts-node)
-  * TypeScript execution and REPL for node.js, with source map and native ESM support.
-* [nodemon](https://www.npmjs.com/package/nodemon)
-  * nodemon is a tool that helps develop node.js based applications by automatically restarting the node application when file changes in the directory are detected.
-* [eslint](https://www.npmjs.com/package/eslint)
-  * ESLint is a tool for identifying and reporting on patterns found in ECMAScript/JavaScript code.
-* [typescript-eslint](https://typescript-eslint.io/)
-  * Tooling which enables ESLint to support TypeScript.
-* [jest](https://www.npmjs.com/package/jest)
-  * Jest is a delightful JavaScript Testing Framework with a focus on simplicity.
-* [supertest](https://www.npmjs.com/package/supertest)
-  * HTTP assertions made easy via superagent.
+This project was initiated with https://github.com/w3cj/express-api-starter.git.
 
 ## Setup
 
@@ -57,3 +25,14 @@ npm run test
 ```
 npm run dev
 ```
+
+## Verify result
+
+```
+curl --location --globoff 'http://localhost:5000/api/v1/forms/cLZojxk94ous/filteredResponses?limit=10&filters=[{%22id%22%3A%22lastUpdatedAt%22%2C%22condition%22%3A%22greater_than%22%2C%22value%22%3A%222024-03-01T00%3A00%3A00.000Z%22}]&offset=1&beforeDate=2024-03-06T00%3A00%3A00.000Z'
+```
+
+The `fitleredResponse` endpoint will accept all query params that [form submissions endpoint](https://www.fillout.com/help/fillout-rest-api#a981e824966448029aeb091e0706d070) will accept.
+This endpoint also requires `filters` query param, which is a json string of filters specified in the requirements.
+
+The response format is same as the original form submissions endpoint.
