@@ -20,7 +20,10 @@ export abstract class FilterAdapter<TParams, TData> {
     const paramsWithoutPagination = this.excludePaginationParams(params);
 
     try {
-      const response = await this.getDataRequest(paramsWithoutPagination);
+      const response = await this.getDataRequest({
+        ...paramsWithoutPagination,
+        limit: this.MAX_PAGE_SIZE,
+      });
 
       const totalPages = Math.ceil(response.totalCount / this.MAX_PAGE_SIZE);
 

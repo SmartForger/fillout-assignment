@@ -17,9 +17,11 @@ router.get<{ formId: string }, any, {}, FilteredResponseQueryParams>(
       return;
     }
 
+    const { filters: filtersStr, ...otherQueryParams } = req.query;
+
     let filters: FilterClauseType[] = [];
     try {
-      filters = JSON.parse(req.query.filters);
+      filters = JSON.parse(filtersStr);
       filtersSchema.validateSync(filters);
     } catch (e: any) {
       return res.status(400).json({
@@ -29,8 +31,9 @@ router.get<{ formId: string }, any, {}, FilteredResponseQueryParams>(
     }
 
     formResponseAdapter.setFilters(filters);
+
     const filteredItems = await formResponseAdapter.getFilteredItems({
-      ...req.query,
+      ...otherQueryParams,
       formId: req.params.formId,
     });
 
