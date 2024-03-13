@@ -40,7 +40,7 @@ router.get<{ formId: string }, any, {}, FilteredResponseQueryParams>(
     const offset = +(req.query.offset || 0);
 
     res.send({
-      totalResponses: filteredItems.slice(offset, offset + pageCount),
+      totalResponses: filteredItems.slice(offset, offset + pageSize),
       totalCount,
       pageCount,
     });

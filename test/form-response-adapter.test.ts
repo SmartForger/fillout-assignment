@@ -117,7 +117,7 @@ describe('FormResponseAdapter', () => {
     });
   });
 
-  describe.only('getFilteredItems', () => {
+  describe('getFilteredItems', () => {
     it('should fetch all data in multiple requests', async () => {
       const mockGetDataRequest = jest.spyOn(adapter, 'getDataRequest');
 
