@@ -1,4 +1,4 @@
-import pAll from "p-all";
+import { pMap } from "../utils/p-map";
 
 export type PaginatedResponseData<T> = {
   items: T[];
@@ -24,19 +24,20 @@ export abstract class FilterAdapter<TParams, TData> {
 
       const totalPages = Math.ceil(response.totalCount / this.MAX_PAGE_SIZE);
 
-      const promises = new Array(totalPages).fill(0).map((_, i) => {
+      const indices = new Array(totalPages).fill(0).map((_, i) => i);
+
+
+      const mapper = (i: number) => {
         const paginatedParams = {
           ...paramsWithoutPagination,
           limit: this.MAX_PAGE_SIZE,
           offset: this.MAX_PAGE_SIZE * i,
         };
 
-        return () => this.getDataRequest(paginatedParams);
-      });
+        return this.getDataRequest(paginatedParams);
+      };
 
-      const result = await pAll(promises, {
-        concurrency: this.MAX_PROMISE_CONCURRENCY,
-      });
+      const result = await pMap(indices, mapper, this.MAX_PROMISE_CONCURRENCY);
       return result.map((response) => this.filterItems(response)).flat();
     } catch (e) {
       return [];
